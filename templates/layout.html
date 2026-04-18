@@ -1,0 +1,359 @@
+{% load static %}
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    {% block head %}
+    {% endblock %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F5F7FA] text-[#0A2540] font-['Manrope'] antialiased leading-relaxed overflow-x-hidden">
+    <header class="fixed top-0 left-0 right-0 z-[100] bg-white/90 backdrop-blur-md border-b border-[#0A2540]/5">
+        <div class="max-w-[1200px] mx-auto h-[60px] flex items-center justify-between px-6 border-b border-[#0A2540]/5">
+            <a href="{% url 'index' %}">
+                <span class="font-extrabold text-[20px] tracking-[-0.5px] text-[#0A2540]">LiveIndex</span>
+            </a>
+            <div class="flex items-center gap-4">
+            <a href="#" id="support-btn" class="bg-[#0A2540] text-white px-4 py-1.5 rounded-full font-bold text-[13px] flex items-center gap-1.5 transition-all duration-300 shadow-[0_4px_10px_rgba(10,37,64,0.1)] hover:bg-[#00D4AA] hover:text-[#0A2540] hover:shadow-[0_4px_15px_rgba(0,212,170,0.3)] hover:-translate-y-[1px]">
+                Поддержите нас 🚀
+            </a>
+
+        </div>
+        </div>
+        <div class="max-w-[1200px] justify-between mx-auto h-[56px] items-center gap-8 px-6 hidden md:flex">
+            <script src="{% static 'main/js/search.js' %}"></script>
+            <div class="relative flex flex-col items-center">
+                <div class="search-container flex items-center bg-[#0A2540]/5 px-4 py-2 rounded-full w-[320px] gap-2.5 text-[#546A7F] border border-transparent focus-within:border-[#00D4AA]/30 transition-all">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text"
+                           id="global-search"
+                           placeholder="Умный поиск"
+                           class="border-none bg-transparent outline-none font-inherit text-[14px] w-full text-[#0A2540] placeholder-[#546A7F]/60">
+                </div>
+
+                <div id="search-results" class="hidden absolute top-full mt-4 w-full bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                    </div>
+            </div>
+
+            <a href="{% url 'healthcare' %}" class="text-[14px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">
+                <div class="w-5 h-5 rounded-xl bg-[#00D4AA]/10 flex items-center justify-center text-[13px] group-hover/link:bg-white transition-all text-[#00D4AA]">
+                    🏥
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[15px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">Здравоохранение</span>
+                </div>
+            </a>
+
+            <a href="{% url 'work_and_balance' %}" class="text-[14px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">
+                <div class="w-5 h-5 rounded-xl bg-[#00D4AA]/10 flex items-center justify-center text-[13px] group-hover/link:bg-white transition-all text-[#00D4AA]">
+                    💼
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[15px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">Часы работы</span>
+                </div>
+            </a>
+
+            <a href="{% url 'map' %}" class="text-[14px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">
+                <div class="w-5 h-5 rounded-xl bg-[#00D4AA]/10 flex items-center justify-center text-[13px] group-hover/link:bg-white transition-all text-[#00D4AA]">
+                    💰
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[15px] font-medium text-[#546A7F] cursor-pointer flex items-center gap-1 transition duration-200 hover:text-[#0A2540]">Покупательная способность</span>
+                </div>
+            </a>
+            <!-- Пункт "Все рейтинги" с Mega Menu -->
+
+
+            <!-- Обновленная кнопка (теперь в едином стиле с остальным меню) -->
+            <a href="{% url 'categories' %}" class="text-[15px] text-[#546A7F] cursor-pointer flex items-center gap-1.5 transition-all duration-200 group-hover:text-[#0A2540]">
+                <!-- Иконка сетки -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 transition-opacity">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Все данные
+            </a>
+
+        </div>
+    </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('support-modal');
+            const modalWindow = modal.querySelector('.max-w-\\[850px\\]');
+            const openBtn = document.getElementById('support-btn'); // Ищем кнопку по ID, который ты задал
+
+            // Открыть модалкуа
+            if (openBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modalWindow.classList.remove('scale-95');
+                    document.body.style.overflow = 'hidden'; // Убираем скролл сайта
+                });
+            }
+
+            // Закрыть модалку (функция вызывается из onclick в HTML)
+            window.closeSupportModal = function() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalWindow.classList.add('scale-95');
+                document.body.style.overflow = 'auto'; // Возвращаем скролл
+            };
+
+            // --- ЛОГИКА ВАЛИДАЦИИ СУММЫ ---
+            const customInput = document.getElementById('custom-amount');
+            const amountError = document.getElementById('amount-error');
+            const wrapper = document.getElementById('custom-amount-wrapper');
+            const donationRadios = document.querySelectorAll('input[name="donation_amount"]');
+
+            if (customInput) {
+                // Проверка при потере фокуса (клике вне поля)
+                customInput.addEventListener('blur', function() {
+                    const val = Number(this.value);
+                    if (this.value !== '' && val < 100) {
+                        this.value = 100; // Автоматически корректируем на 100
+
+                        // Показываем ошибку с плавной анимацией
+                        amountError.classList.remove('opacity-0', 'translate-y-[-5px]');
+                        amountError.classList.add('opacity-100', 'translate-y-0');
+
+                        // Красим инпут в красный с мягким свечением
+                        wrapper.classList.add('border-[#FF4757]', 'shadow-[0_4px_15px_rgba(255,71,87,0.15)]');
+                        wrapper.classList.remove('focus-within:border-[#00D4AA]', 'focus-within:shadow-[0_4px_20px_rgba(0,212,170,0.15)]');
+
+                        // Прячем ошибку через 3.5 секунды
+                        setTimeout(() => {
+                            amountError.classList.add('opacity-0', 'translate-y-[-5px]');
+                            amountError.classList.remove('opacity-100', 'translate-y-0');
+
+                            wrapper.classList.remove('border-[#FF4757]', 'shadow-[0_4px_15px_rgba(255,71,87,0.15)]');
+                            wrapper.classList.add('focus-within:border-[#00D4AA]', 'focus-within:shadow-[0_4px_20px_rgba(0,212,170,0.15)]');
+                        }, 3500);
+                    }
+                });
+
+                // Когда человек начинает вводить свою сумму — снимаем выделение с готовых карточек
+                customInput.addEventListener('input', function() {
+                    donationRadios.forEach(radio => {
+                        radio.checked = false;
+                    });
+                });
+            }
+        });
+
+    </script>
+    {% block main %}
+    {% endblock %}
+    <footer class="bg-[#0A2540] relative overflow-hidden pt-20 pb-8 mt-10 rounded-t-[40px] md:rounded-t-[64px] z-40">
+
+        <!-- Декоративные размытые пятна (связь с главным экраном) -->
+        <div class="absolute top-[-20%] right-[-10%] w-[400px] h-[400px] bg-[#00D4AA]/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-[-20%] left-[-10%] w-[300px] h-[300px] bg-[#E0C090]/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <div class="max-w-[1200px] mx-auto px-6 relative z-10">
+
+            <!-- Верхняя часть футера (Рассылка / Призыв к действию) -->
+            <div class="flex flex-col md:flex-row items-center justify-between bg-white/5 border border-white/10 rounded-[24px] p-8 mb-16 backdrop-blur-md">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <h3 class="text-white font-extrabold text-[20px] md:text-[24px] mb-2 tracking-[-0.5px]">Данные меняются. Будьте в курсе.</h3>
+                    <p class="text-[#8B9DB1] text-[14px]">Раз в месяц присылаем новые рейтинги стран</p>
+                </div>
+                <div class="flex w-full md:w-auto bg-white/10 p-1.5 rounded-full border border-white/10 focus-within:border-[#00D4AA]/50 transition-colors">
+                    <input type="email" placeholder="Ваш E-mail" class="bg-transparent text-white placeholder-[#8B9DB1] text-[14px] px-4 outline-none w-full md:w-[250px]">
+                    <button class="bg-[#00D4AA] hover:bg-white text-[#0A2540] px-6 py-2.5 rounded-full font-bold text-[14px] transition duration-300 shadow-[0_4px_12px_rgba(0,212,170,0.2)]">
+                        Подписаться
+                    </button>
+                </div>
+            </div>
+
+            <!-- Основная сетка навигации -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+
+                <!-- Колонка 1: Бренд (Занимает 2 колонки на больших экранах) -->
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                    <a href="/" class="flex items-center gap-2">
+                        <span class="font-extrabold text-[24px] tracking-[-0.5px] text-white">liveindex</span>
+                    </a>
+
+                    <p class="text-[#8B9DB1] text-[14px] leading-relaxed max-w-[320px]">
+                        Современный и объективный инструмент для сравнения стран и городов. Умная аналитика для тех, кто планирует переезд, путешествие или просто любит изучать мир в цифрах.
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <h4 class="text-white font-bold text-[15px] tracking-[0.5px]">Контакты</h4>
+                    <div class="flex items-center gap-4 mt-2">
+
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                            <img src="{% static 'img/structure/telegram.svg' %}" class="w-5 h-5 object-contain" alt="Telegram">
+                        </a>
+
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                            <img src="{% static 'img/structure/max.svg' %}" class="w-5 h-5 object-contain" alt="Telegram">
+                        </a>
+
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                            <img src="{% static 'img/structure/vk.svg' %}" class="w-5 h-5 object-contain" alt="VK">
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Самый низ (Копирайт и Политики) -->
+            <div class="pt-6 border-t border-white/10  ">
+                <div class="flex justify-between items-center text-[#8B9DB1] text-[13px]">
+                    <a class="license" rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        <img class="license-img" alt="Creative Commons License" style="border: 1px solid #8b8b8b8f"
+                             src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"/>
+                    </a>
+                    <span>&copy; 2026 liveindex. Все права защищены.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="support-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-6 transition-all duration-300 opacity-0 pointer-events-none">
+        <!-- Темный фон (Backdrop) -->
+        <div class="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeSupportModal()"></div>
+
+        <!-- Контейнер окна -->
+        <div class="relative w-full max-w-[850px] bg-white rounded-[32px] shadow-[0_20px_60px_rgba(10,37,64,0.15)] overflow-hidden transform transition-all duration-300 scale-95">
+
+            <!-- Декоративный фон в углу -->
+            <div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] bg-gradient-to-bl from-[#00D4AA]/20 to-transparent rounded-full blur-[40px] pointer-events-none"></div>
+
+            <!-- Кнопка "Закрыть" -->
+            <button onclick="closeSupportModal()" class="absolute top-6 right-6 w-10 h-10 bg-[#0A2540]/5 text-[#546A7F] hover:bg-[#0A2540]/10 hover:text-[#0A2540] rounded-full flex items-center justify-center transition-colors z-20">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <!-- Содержимое (Сетка 2 колонки) -->
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_1.1fr] relative z-10">
+
+                <!-- Левая колонка: Эмоция и Текст -->
+                <div class="p-8 md:p-12 bg-[#F5F7FA]/50 border-r border-[#0A2540]/5 flex flex-col justify-center">
+                    <div class="w-16 h-16 bg-white rounded-2xl shadow-[0_4px_12px_rgba(10,37,64,0.05)] flex items-center justify-center text-[32px] mb-6 border border-[#0A2540]/5 -rotate-6">
+                        🚀
+                    </div>
+                    <h2 class="text-[28px] font-extrabold text-[#0A2540] tracking-[-0.5px] leading-[1.2] mb-4">
+                        Делаем мир понятнее. <br> Без рекламы.
+                    </h2>
+                    <p class="text-[#546A7F] text-[15px] leading-[1.7] mb-6 font-medium">
+                        liveindex — это независимый проект. Мы ежедневно обрабатываем миллионы данных, чтобы вы могли моментально сравнивать города.
+                    </p>
+                    <p class="text-[#546A7F] text-[15px] leading-[1.7] font-medium">
+                        Ваша поддержка помогает нам оплачивать API, улучшать алгоритмы и оставлять сайт <b>полностью бесплатным</b>.
+                    </p>
+                </div>
+
+                <!-- Правая колонка: Интерактив (Донат) -->
+                <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
+                    <h3 class="text-[18px] font-bold text-[#0A2540] mb-6">Выберите уровень поддержки:</h3>
+
+                    <!-- Варианты сумм -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="donation_amount" class="peer hidden" value="5" checked>
+                            <div class="border-2 border-[#EDF0F5] rounded-2xl p-4 transition-all duration-200 peer-checked:border-[#00D4AA] peer-checked:bg-[#00D4AA]/5 group-hover:border-[#0A2540]/20">
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="text-[24px]">☕</span>
+                                    <span class="font-extrabold text-[18px] text-[#0A2540]">150 ₽</span>
+                                </div>
+                                <div class="text-[13px] font-bold text-[#0A2540]">Чашка кофе</div>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="donation_amount" class="peer hidden" value="15">
+                            <div class="border-2 border-[#EDF0F5] rounded-2xl p-4 transition-all duration-200 peer-checked:border-[#00D4AA] peer-checked:bg-[#00D4AA]/5 group-hover:border-[#0A2540]/20">
+                                <div class="absolute top-[-10px] right-[-10px] bg-[#0A2540] text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white shadow-sm">Частый выбор</div>
+                                <div class="flex justify-between items-start mb-1">
+                                    <span class="text-[24px]">🍕</span>
+                                    <span class="font-extrabold text-[18px] text-[#0A2540]">500 ₽</span>
+                                </div>
+                                <div class="text-[13px] font-bold text-[#0A2540]">Угостить пиццей</div>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer group sm:col-span-2">
+                            <input type="radio" name="donation_amount" class="peer hidden" value="50">
+                            <div class="border-2 border-[#EDF0F5] rounded-2xl p-4 transition-all duration-200 peer-checked:border-[#00D4AA] peer-checked:bg-[#00D4AA]/5 group-hover:border-[#0A2540]/20 flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-[28px]">💾</span>
+                                    <div>
+                                        <div class="text-[14px] font-bold text-[#0A2540]">Оплатить сервер</div>
+                                    </div>
+                                </div>
+                                <span class="font-extrabold text-[20px] text-[#0A2540]">2500 ₽</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Альтернативный ввод (Своя сумма) -->
+                    <div class="mb-8 relative">
+                        <label class="text-[13px] font-bold text-[#0A2540] mb-2 block">Своя сумма:</label>
+
+                        <!-- Обертка инпута (Меняет цвет и свечение при фокусе) -->
+                        <div id="custom-amount-wrapper" class="relative flex items-center bg-[#F5F7FA] rounded-[14px] border border-[#0A2540]/10 focus-within:border-[#00D4AA] focus-within:bg-white focus-within:shadow-[0_4px_20px_rgba(0,212,170,0.15)] transition-all duration-300">
+
+                            <!-- Левый блок (Символ валюты) -->
+                            <div class="pl-4 pr-3 py-3.4 border-r border-[#0A2540]/10 text-[#0A2540] font-extrabold text-[16px] flex items-center justify-center bg-white/50">
+                                ₽
+                            </div>
+
+                            <!-- Само поле ввода (стрелочки скрыты через arbitrary variant Tailwind) -->
+                            <input type="number" id="custom-amount" min="100" placeholder="500" class="peer w-full bg-transparent outline-none py-3.5 pl-4 pr-[95px] text-[#0A2540] font-bold text-[16px] placeholder-[#8B9DB1][&::-webkit-inner-spin-button]:appearance-none">
+
+                            <!-- Интерактивный бейдж внутри поля -->
+                            <div class="absolute right-2 flex items-center gap-1 bg-[#0A2540]/5 text-[#546A7F] text-[10px] font-extrabold px-2.5 py-1.5 rounded-lg uppercase tracking-[0.5px] pointer-events-none transition-all duration-300 peer-focus:bg-[#00D4AA]/10 peer-focus:text-[#00D4AA]">
+                                Мин 100
+                            </div>
+                        </div>
+
+                        <!-- Анимированная ошибка (Скрыта через opacity-0 и сдвинута вверх) -->
+                        <p id="amount-error" class="absolute -bottom-6 left-0 text-[12px] text-[#FF4757] font-bold flex items-center gap-1 opacity-0 translate-y-[-5px] transition-all duration-300 pointer-events-none">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            Сумма не может быть меньше 100 ₽
+                        </p>
+                    </div>
+
+                    <!-- Кнопки оплаты -->
+                    <div class="flex flex-col gap-3">
+                        <button class="w-full bg-[#0A2540] text-white py-4 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2 transition-all hover:bg-[#00D4AA] hover:text-[#0A2540] hover:shadow-[0_8px_20px_rgba(0,212,170,0.3)] hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                            Оплатить картой
+                        </button>
+
+                        <!-- Альтернативные способы (Boosty, Crypto и тд) -->
+                        <div class="flex items-center gap-4 mt-2">
+                            <div class="h-px bg-[#EDF0F5] flex-1"></div>
+                            <span class="text-[12px] font-bold text-[#8B9DB1] uppercase tracking-[0.5px]">Или через</span>
+                            <div class="h-px bg-[#EDF0F5] flex-1"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-1">
+                            <button class="bg-[#F5F7FA] text-[#0A2540] py-3 rounded-xl font-bold text-[13px] hover:bg-[#E0E6ED] transition-colors flex items-center justify-center gap-2">
+                                <span class="text-[16px]">🟠</span> Boosty
+                            </button>
+                            <button class="bg-[#F5F7FA] text-[#0A2540] py-3 rounded-xl font-bold text-[13px] hover:bg-[#E0E6ED] transition-colors flex items-center justify-center gap-2">
+                                <span class="text-[16px]">₿</span> Крипто
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

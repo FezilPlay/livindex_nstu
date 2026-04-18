@@ -1,0 +1,89 @@
+{% load dict_extras %}
+
+<div id="top-longevity-card" hx-swap-oob="innerHTML">
+    <div class="absolute -right-4 -bottom-4 text-[80px] opacity-5 group-hover:scale-110 transition-transform duration-500">🧬</div>
+    <h3 class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-4">Долгожители</h3>
+
+    {% if top_country %}
+    <a href="{% url 'country_detail' top_country.slug %}" class="flex items-center gap-3 mb-5">
+        <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+            <img src="{{ top_country.flag_url }}" alt="" class="w-full h-full px-2 object-contain">
+        </div>
+        <span class="text-[18px] font-bold text-[#0A2540] group-hover:text-[#3b82f6] transition-colors">
+            {{ top_country.name_ru|default:top_country.name }}
+        </span>
+    </a>
+    <div class="mt-auto flex items-end gap-2">
+        <span class="text-[36px] font-black text-[#0A2540] leading-none">
+            {{ top_country.latest_metrics|dict_get:metric_key|floatformat:1 }}
+        </span>
+        <span class="text-[13px] font-bold text-[#546A7F] mb-1">лет (Ср. возраст)</span>
+    </div>
+    {% endif %}
+</div>
+
+<span id="country-count" hx-swap-oob="innerHTML">
+    {{ total_count }} стран
+</span>
+
+{% for country in countries %}
+<div class="grid grid-cols-1 md:grid-cols-[60px_1fr_300px_200px_160px] items-center px-6 md:px-8 py-5 hover:bg-[#00D4AA]/5 transition-all border-b border-[#0A2540]/5 group">
+
+    <div class="text-[16px] font-black text-[#0A2540]/30 hidden md:block">{{ forloop.counter }}</div>
+
+    <a href="{% url 'country_detail' country.slug %}" class="flex items-center gap-4">
+        <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+            <img src="{{ country.flag_url }}" class="w-full h-full object-contain px-2" alt="">
+        </div>
+        <span class="text-[15px] font-bold text-[#0A2540] group-hover:text-[#3b82f6] transition-colors">
+            {{ country.name_ru|default:country.name }}
+        </span>
+    </a>
+
+    {% with combined=country.combined_health_index %}
+        <div class="flex flex-col gap-1.5 mt-2 md:mt-0">
+            <div class="flex justify-between items-end">
+                <span class="text-[15px] font-black text-[#0A2540]">
+                    {{ combined|floatformat:1|default:"—" }}
+                </span>
+            </div>
+
+            <!-- Прогресс-бар: заполняется точно на значение + цвет по уровню -->
+            <div class="w-40 h-1.5 bg-[#EDF0F5] rounded-full overflow-hidden">
+                <div
+                    class="h-full transition-all duration-300"
+                    style="width: {{ combined|default:0 }}%;
+                           background: {% if combined >= 85 %}#00D4AA
+                                      {% elif combined >= 75 %}#34D399
+                                      {% elif combined >= 65 %}#F59E0B
+                                      {% else %}#EF4444{% endif %};">
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+
+
+    {% with h_index=country.latest_metrics|dict_get:health_index_key %}
+        <div class="flex flex-col gap-1.5 mt-2 md:mt-0">
+            <div class="flex justify-between items-end">
+                <span class="text-[15px] font-black text-[#0A2540]">
+                    {{ h_index|floatformat:1|default:"—" }}
+                </span>
+            </div>
+            <div class="w-40 h-1.5 bg-[#EDF0F5] rounded-full overflow-hidden">
+                <div class="h-full bg-[#00D4AA]" style="width: {{ h_index|default:0 }}%"></div>
+            </div>
+        </div>
+    {% endwith %}
+
+
+    <div class="flex flex-col mt-2 md:text-right md:mt-0">
+        <span class="text-[15px] font-bold text-[#0A2540]">
+            {{ country.latest_metrics|dict_get:metric_key|floatformat:1 }} года
+        </span>
+        <span class="text-[11px] text-[#546A7F] uppercase font-bold opacity-60">Ср. возраст</span>
+    </div>
+</div>
+{% empty %}
+    <div class="p-10 text-center text-slate-400">Данные не найдены</div>
+{% endfor %}

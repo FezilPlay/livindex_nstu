@@ -1,0 +1,199 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<section class="mt-[116px] pt-12 pb-16 bg-[#F5F7FA] relative overflow-hidden">
+    <!-- Лёгкие акцентные пятна -->
+    <div class="absolute top-10 right-10 w-[380px] h-[380px] bg-amber-400/10 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-0 left-10 w-[300px] h-[300px] bg-teal-400/10 rounded-full blur-[110px]"></div>
+
+    <div class="max-w-[1200px] mx-auto px-6 relative z-10">
+        <nav class="flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest text-[#546A7F] mb-6">
+            <a href="/" class="hover:text-[#0A2540]">Главная</a>
+            <span class="text-[#546A7F]/40">/</span>
+            <a href="/" class="hover:text-[#0A2540]">Качество жизни</a>
+            <span class="text-[#546A7F]/40">/</span>
+            <span class="text-amber-500">Покупательная способность</span>
+        </nav>
+
+        <div class="max-w-3xl">
+            <h1 class="text-[32px] md:text-[52px] font-black text-[#0A2540] leading-none tracking-[-1px]">
+                Покупательная <span class="text-amber-500">способность</span>
+            </h1>
+            <p class="text-[#546A7F] mt-5 text-[17px] leading-relaxed max-w-xl">
+                Рейтинг стран по тому, сколько реальных товаров и услуг может позволить себе человек на средний доход.
+                Здесь важны не только зарплаты, но и цены, аренда, налоги и стоимость жизни.
+            </p>
+        </div>
+    </div>
+</section>
+
+<main class="max-w-[1200px] mx-auto -mt-8 mb-20 relative z-20 px-6 flex flex-col gap-8">
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <article class="bg-white rounded-[24px] p-6 border border-[#0A2540]/5 shadow-[0_10px_30px_rgba(10,37,64,0.04)] flex flex-col relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-[80px] opacity-5 group-hover:scale-110 transition-transform duration-500">💰</div>
+            <h3 class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-4">Лидер по доходам</h3>
+            <a href="#" class="flex items-center gap-3 mb-5">
+                <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    <img src="https://flagcdn.com/ch.svg" alt="Швейцария" class="w-full h-full px-2 object-contain">
+                </div>
+                <span class="text-[18px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">Швейцария</span>
+            </a>
+            <div class="mt-auto flex items-center gap-2">
+                <span class="text-[36px] font-black text-amber-500 leading-none">92.6</span>
+                <span class="text-[13px] font-bold text-[#546A7F] mt-2 ml-3 leading-none">Индекс покупательной способности</span>
+            </div>
+        </article>
+
+        <article class="bg-white rounded-[24px] p-6 border border-[#0A2540]/5 shadow-[0_10px_30px_rgba(10,37,64,0.04)] flex flex-col relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-[80px] opacity-5 group-hover:scale-110 transition-transform duration-500">🛒</div>
+            <h3 class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-4">Доступность товаров</h3>
+            <a href="#" class="flex items-center gap-3 mb-5">
+                <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    <img src="https://flagcdn.com/us.svg" alt="Швейцария" class="w-full h-full px-2 object-contain">
+                </div>
+                <span class="text-[18px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">США</span>
+            </a>
+            <div class="mt-auto flex items-center gap-2">
+                <span class="text-[36px] font-black text-[#0A2540] leading-none">Высокая</span>
+                <span class="text-[13px] font-bold text-[#546A7F] mt-2 ml-3 leading-none">После налогов и расходов</span>
+            </div>
+        </article>
+
+        <article class="bg-gradient-to-br from-amber-50 to-white rounded-[24px] p-6 border border-amber-100 shadow-[0_10px_30px_rgba(245,158,11,0.04)] flex flex-col relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-[80px] opacity-5 group-hover:scale-110 transition-transform duration-500">🏠</div>
+            <h3 class="text-[11px] font-black text-amber-500 uppercase tracking-widest mb-4">Баланс доходов и цен</h3>
+            <a href="#" class="flex items-center gap-3 mb-5">
+                <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    <img src="https://flagcdn.com/de.svg" alt="Швейцария" class="w-full h-full px-2 object-contain">
+                </div>
+                <span class="text-[18px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">Германия</span>
+            </a>
+            <div class="mt-auto flex items-end gap-2">
+                <span class="text-[36px] font-black text-amber-500 leading-none">Стабильный</span>
+                <span class="text-[13px] font-bold text-[#546A7F] mt-2 ml-3 leading-none">Уровень жизни</span>
+            </div>
+        </article>
+
+    </section>
+
+    <section class="bg-white rounded-[24px] border border-[#0A2540]/5 shadow-[0_20px_50px_rgba(10,37,64,0.05)] overflow-hidden">
+
+        <div class="p-6 border-b border-[#0A2540]/5 flex flex-wrap items-center justify-between gap-4 bg-[#F8FAFC]/50">
+            <h2 class="text-[18px] font-extrabold text-[#0A2540]">Глобальный индекс покупательной способности</h2>
+            <div class="flex bg-[#EDF0F5] p-1 rounded-xl">
+                <button class="px-4 py-2 rounded-lg text-[12px] font-bold bg-white text-[#0A2540] shadow-sm">Покупательная способность</button>
+                <button class="px-4 py-2 rounded-lg text-[12px] font-bold text-[#546A7F] hover:text-[#0A2540] transition">Cost of Living</button>
+            </div>
+        </div>
+
+        <div class="hidden md:grid grid-cols-[60px_1fr_300px_180px_150px] bg-[#F8FAFC] border-b border-[#0A2540]/5 px-8 py-4 text-[11px] font-black text-[#546A7F] uppercase tracking-wider">
+            <div>#</div>
+            <div>Страна</div>
+            <div>Покупательная способность</div>
+            <div>Уровень цен</div>
+            <div class="text-right">Статус</div>
+        </div>
+
+        <div class="flex flex-col">
+
+            <div class="grid grid-cols-1 md:grid-cols-[60px_1fr_300px_180px_150px] items-center px-6 md:px-8 py-5 hover:bg-amber-50/60 transition-all border-b border-[#0A2540]/5 group">
+                <div class="text-[16px] font-black text-amber-500 hidden md:block">1</div>
+                <a href="#" class="flex items-center gap-4">
+                    <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="https://flagcdn.com/ch.svg" class="w-full h-full object-contain px-2" alt="">
+                    </div>
+                    <span class="text-[15px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">
+                        Швейцария
+                    </span>
+                </a>
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-[15px] font-black text-[#0A2540]">92.6</span>
+                    <div class="w-32 h-1.5 bg-[#EDF0F5] rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500" style="width: 93%"></div>
+                    </div>
+                </div>
+                <div class="text-[15px] font-bold text-[#0A2540]">Очень высокий</div>
+                <div class="flex justify-end">
+                    <span class="px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-black uppercase rounded-lg">Top Income</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-[60px_1fr_300px_180px_150px] items-center px-6 md:px-8 py-5 hover:bg-amber-50/60 transition-all border-b border-[#0A2540]/5 group">
+                <div class="text-[16px] font-black text-[#0A2540]/30 hidden md:block group-hover:text-amber-500">2</div>
+                <a href="#" class="flex items-center gap-4">
+                    <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="https://flagcdn.com/us.svg" class="w-full h-full object-contain px-2" alt="">
+                    </div>
+                    <span class="text-[15px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">
+                        США
+                    </span>
+                </a>
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-[15px] font-black text-[#0A2540]">89.1</span>
+                    <div class="w-32 h-1.5 bg-[#EDF0F5] rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500" style="width: 89%"></div>
+                    </div>
+                </div>
+                <div class="text-[15px] font-bold text-[#0A2540]">Высокий</div>
+                <div class="flex justify-end">
+                    <span class="px-3 py-1 bg-cyan-100 text-cyan-700 text-[10px] font-black uppercase rounded-lg">Strong Market</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-[60px_1fr_300px_180px_150px] items-center px-6 md:px-8 py-5 hover:bg-amber-50/60 transition-all border-b border-[#0A2540]/5 group">
+                <div class="text-[16px] font-black text-[#0A2540]/30 hidden md:block group-hover:text-amber-500">3</div>
+                <a href="#" class="flex items-center gap-4">
+                    <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="https://flagcdn.com/de.svg" class="w-full h-full object-contain px-2" alt="">
+                    </div>
+                    <span class="text-[15px] font-bold text-[#0A2540] group-hover:text-[#f59e0b] transition-colors">
+                        Германия
+                    </span>
+                </a>
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-[15px] font-black text-[#0A2540]">84.7</span>
+                    <div class="w-32 h-1.5 bg-[#EDF0F5] rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="text-[15px] font-bold text-[#0A2540]">Сбалансированный</div>
+                <div class="flex justify-end">
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase rounded-lg">Stable Life</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <article class="bg-white rounded-[24px] p-6 border border-[#0A2540]/5 shadow-[0_10px_30px_rgba(10,37,64,0.04)]">
+            <div class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-3">Что важно</div>
+            <h3 class="text-[20px] font-extrabold text-[#0A2540] mb-3">Доход — это не всё</h3>
+            <p class="text-[14px] leading-6 text-slate-500 font-medium">
+                Реальная покупательная способность зависит от того, сколько остаётся после налогов, аренды, еды, транспорта и базовых расходов.
+            </p>
+        </article>
+
+        <article class="bg-white rounded-[24px] p-6 border border-[#0A2540]/5 shadow-[0_10px_30px_rgba(10,37,64,0.04)]">
+            <div class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-3">Для будущего</div>
+            <h3 class="text-[20px] font-extrabold text-[#0A2540] mb-3">Сильная валюта и стабильные цены</h3>
+            <p class="text-[14px] leading-6 text-slate-500 font-medium">
+                Чем устойчивее экономика и предсказуемее рост цен, тем проще людям планировать жизнь, копить и развиваться.
+            </p>
+        </article>
+
+        <article class="bg-white rounded-[24px] p-6 border border-[#0A2540]/5 shadow-[0_10px_30px_rgba(10,37,64,0.04)]">
+            <div class="text-[11px] font-black text-[#546A7F] uppercase tracking-widest mb-3">Фокус раздела</div>
+            <h3 class="text-[20px] font-extrabold text-[#0A2540] mb-3">Сравнение реального уровня жизни</h3>
+            <p class="text-[14px] leading-6 text-slate-500 font-medium">
+                Здесь можно показывать, где зарплаты действительно дают больше свободы, а где доход быстро съедают цены и аренда.
+            </p>
+        </article>
+
+    </section>
+</main>
+{% endblock %}

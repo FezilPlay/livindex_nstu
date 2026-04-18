@@ -1,0 +1,55 @@
+{% load dict_extras %}
+
+<span id="country-count" hx-swap-oob="innerHTML">
+    {{ total_count }} стран
+</span>
+
+<table class="w-full text-left border-collapse">
+    <thead>
+        <tr class="border-b border-slate-100 text-[13px] text-slate-400 uppercase font-bold">
+            <th class="p-6">#</th>
+
+            <th class="p-6 cursor-pointer hover:text-[#0A2540] transition-colors {% if current_sort == 'name' %}text-[#0A2540]{% endif %}"
+                hx-get="{% url 'global_ranking_table' %}?indicator={{ indicator_code }}&sort_by=name&order={% if current_sort == 'name' and current_order == 'desc' %}asc{% else %}desc{% endif %}"
+                hx-target="closest .bg-white">
+                Страна
+                {% if current_sort == 'name' %}
+                    {% if current_order == 'desc' %}↓{% else %}↑{% endif %}
+                {% endif %}
+            </th>
+
+            <th class="p-6 text-right cursor-pointer hover:text-[#0A2540] transition-colors {% if current_sort == 'value' %}text-[#0A2540]{% endif %}"
+                hx-get="{% url 'global_ranking_table' %}?indicator={{ indicator_code }}&sort_by=value&order={% if current_sort == 'value' and current_order == 'desc' %}asc{% else %}desc{% endif %}"
+                hx-target="closest .bg-white">
+                Данные МВФ
+                {% if current_sort == 'value' %}
+                    {% if current_order == 'desc' %}↓{% else %}↑{% endif %}
+                {% endif %}
+            </th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-50">
+        {% for country in countries %}
+        <tr class="hover:bg-slate-50/50 transition-colors group">
+            <td class="p-6 text-slate-400 font-mono text-sm">{{ forloop.counter }}</td>
+
+            <td class="p-6">
+                <a href="{% url 'country_detail' country.slug %}" class="flex items-center gap-4">
+                    <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="{{ country.flag_url }}" class="w-full h-full object-contain px-2" alt="">
+                    </div>
+                    <span class="font-bold text-[#0A2540] group-hover:text-[#00D4AA] transition-colors">
+                        {{ country.name_ru|default:country.name }}
+                    </span>
+                </a>
+            </td>
+
+            <td class="p-6 text-right">
+                <span class="inline-flex items-center px-3 py-1 bg-[#00D4AA]/10 text-[#00D4AA] rounded-lg font-bold text-sm">
+                    {{ country.latest_metrics|dict_get:metric_key|floatformat:0 }} {{ unit }}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

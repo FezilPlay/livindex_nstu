@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block main %}
+<section class="mt-[116px] h-[50em] relative flex items-center justify-center overflow-hidden bg-[#E0C090]">
+    <div class="absolute inset-0">
+        {% if object.image %}
+            <img src="{{ object.image.url }}" class="w-full h-full object-cover object-[center_60%]" alt="{{ object.name_ru }}">
+        {% else %}
+            <img src="{% static 'img/structure/background.jpg' %}" class="w-full h-full object-cover object-[center_60%]">
+        {% endif %}
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0A2540]/10 to-[#0A2540]/30 z-10"></div>
+
+    <div class="relative z-20 text-center text-white flex flex-col items-center gap-12 px-4 pb-6 mt-10">
+
+        <div>
+            <h1 class="text-[40px] md:text-[65px] mb-[50px] font-extrabold tracking-[-1.5px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.2)] m-0 leading-tight uppercase">{{ country.name_ru|default:country.name }}</h1>
+            <div class="flex flex-wrap justify-center gap-3">
+                {% if country.flag_url %}
+                    <img src="{{ country.flag_url }}" alt="Флаг {{ country.name }}" style="width: auto; border-radius: 4px; height: 40px">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<main class="max-w-[1200px] mx-auto -mt-[60px] mb-[60px] relative z-30 px-6 grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-8">
+    <section class="contents">
+        <article class="bg-white rounded-[24px] p-8 shadow-[0_4px_6px_rgba(10,37,64,0.02),0_12px_24px_rgba(10,37,64,0.04)] border border-[#0A2540]/5 flex flex-col gap-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-[20px] font-bold text-[#0A2540] mb-2">Описание</h2>
+                </div>
+            </div>
+            {% if insight %}
+                <p class="text-[15px] leading-[1.7] text-[#546A7F]">
+                    {{ insight.summary|linebreaksbr }}
+                </p>
+            {% else %}
+                Нет данных
+            {% endif %}
+        </article>
+        <article class="bg-white rounded-[24px] p-8 shadow-[0_4px_6px_rgba(10,37,64,0.02),0_12px_24px_rgba(10,37,64,0.04)] border border-[#0A2540]/5 flex flex-col gap-6">
+            <h2 class="text-[20px] font-bold text-[#0A2540]">Последние данные</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="rounded-2xl border p-4">
+                    <div class="text-slate-500 text-sm">Продолжительность жизни</div>
+                    <div class="text-2xl mt-3 font-bold text-[#0A2540]">
+                        {% if latest_stats.life_expectancy %}
+                            {{ latest_stats.life_expectancy.value|floatformat:1 }} {{ latest_stats.life_expectancy.indicator.unit }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border p-4">
+                    <div class="text-slate-500 text-sm">Часы работы</div>
+                    <div class="text-2xl mt-3 font-bold text-[#0A2540]">
+                        {% if latest_stats.working_hours %}
+                            {{ latest_stats.working_hours.value }} {{ latest_stats.working_hours.indicator.unit }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border p-4">
+                    <div class="text-slate-500 text-sm">ВВП</div>
+                    <div class="text-2xl mt-3 font-bold text-[#0A2540]">
+                        {% if latest_stats.gdp %}
+                            {{ latest_stats.gdp.value }} {{ latest_stats.gdp.indicator.unit }}
+                        {% else %}
+                            Нет данных
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </article>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@7.3.0/ol.css"/>
+
+    <style>
+        /* 1. ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ КАРТЫ */
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1280px; /* Ограничиваем ширину как в топовых сервисах */
+            margin: 0 auto;
+            height: 600px; /* Фиксированная высота, чтобы карта не была на всю страницу */
+            background: #F8FAFC;
+            border-radius: 32px; /* Красивые скругления */
+            overflow: hidden; /* Чтобы карта не вылезала за края */
+            box-shadow: 0 20px 50px rgba(10, 37, 64, 0.1); /* Мягкая тень */
+            border: 1px solid rgba(10, 37, 64, 0.05);
+        }
+
+        /* Ограничиваем саму карту внутри воппера */
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Твои стили для элементов управления (ol-control и т.д.) оставляй как есть */
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="container mx-auto px-4 py-12">
+
+    <div class="mb-10 text-center">
+        <h1 class="text-4xl font-black text-[#0A2540] mb-3">Глобальные индексы</h1>
+        <p class="text-slate-500 text-lg">Интерактивная аналитика по странам мира от liveindex</p>
+    </div>
+
+    <section class="map-wrapper">
+        <!-- Верхний бар с названием карты и селектором индикатора -->
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-[110] bg-white rounded-3xl shadow-xl px-6 py-3 flex items-center gap-4">
+            <span class="font-bold text-[#0A2540]">Карта мира</span>
+
+            <select id="indicator-select"
+                    class="bg-[#F5F7FA] border border-[#0A2540]/10 rounded-2xl px-5 py-2 text-sm font-medium focus:outline-none focus:border-[#00D4AA]">
+                <option value="gdp_ppp">ВВП на душу (ППС)</option>
+                <option value="cost_of_living">Стоимость жизни</option>
+                <option value="safety">Индекс безопасности</option>
+                <option value="healthcare">Здравоохранение</option>
+            </select>
+        </div>
+
+        <!-- Сама карта -->
+        <div id="map"></div>
+
+        <!-- Красивая легенда (в стиле liveindex) -->
+        <div id="legend"
+             class="absolute bottom-6 left-6 bg-white rounded-3xl shadow-2xl border border-[#0A2540]/5 p-5 min-w-[260px] text-sm">
+            <div class="font-bold text-[#0A2540] mb-4 flex items-center gap-2">
+                <span>ВВП на душу населения (ППС)</span>
+            </div>
+
+            <div id="legend-items" class="space-y-2"></div>
+        </div>
+
+        <!-- Боковая панель при клике на страну -->
+        <div id="country-panel"
+             class="hidden absolute top-20 right-6 bg-white rounded-3xl shadow-2xl border border-[#0A2540]/5 p-6 w-80 z-[120]">
+            <div class="flex justify-between items-start mb-4">
+                <div id="country-name" class="font-extrabold text-2xl"></div>
+                <button onclick="closePanel()" class="text-[#546A7F] hover:text-[#0A2540]">✕</button>
+            </div>
+            <div id="country-flag" class="text-7xl mb-4"></div>
+            <div id="country-value" class="text-4xl font-black text-[#00D4AA]"></div>
+            <div id="country-subtitle" class="text-[#546A7F]"></div>
+        </div>
+    </section>
+
+    <section class="mt-20 max-w-[1280px] mx-auto">
+        <div class="flex justify-between items-end mb-6">
+            <h2 class="text-2xl font-bold text-[#0A2540]">Рейтинг стран</h2>
+            <span class="text-sm text-slate-400">Всего проанализировано: 195 стран</span>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+            <p class="text-slate-400 italic text-center py-10">Таблица со списком стран загружается...</p>
+        </div>
+    </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ol@7.3.0/dist/ol.js"></script>
+<script>
+    let currentMapData = {};
+    let currentIndicator = 'gdp_ppp';
+
+    // 🔥 Полная градация точно как ты просил
+    const levels = [
+        {min: 0,     max: 1000,   color: 'rgb(163, 0, 0)',   label: '< $1,000'},
+        {min: 1000,  max: 2500,   color: 'rgb(255, 0, 0)',   label: '$1,000 – $2,500'},
+        {min: 2500,  max: 5000,   color: 'rgb(255, 133, 47)',label: '$2,500 – $5,000'},
+        {min: 5000,  max: 10000,  color: 'rgb(255, 210, 21)',label: '$5,000 – $10,000'},
+        {min: 10000, max: 20000,  color: 'rgb(255, 255, 0)', label: '$10,000 – $20,000'},
+        {min: 20000, max: 30000,  color: 'rgb(179, 255, 0)', label: '$20,000 – $30,000'},
+        {min: 30000, max: 40000,  color: 'rgb(0, 249, 0)',   label: '$30,000 – $40,000'},
+        {min: 40000, max: 50000,  color: 'rgb(0, 143, 0)',   label: '$40,000 – $50,000'},
+        {min: 50000, max: 60000,  color: 'rgb(0, 60, 0)',    label: '$50,000 – $60,000'},
+        {min: 60000, max: 70000,  color: 'rgb(0, 0, 138)',   label: '$60,000 – $70,000'},
+        {min: 70000, max: Infinity,color: 'rgb(75, 0, 130)', label: '>$70,000'}
+    ];
+
+    function countryStyle(feature) {
+        const props = feature.getProperties();
+        const iso = props['ISO3166-1-Alpha-2'] || props['ISO_A2'] || props['ADM0_A3'] || props['ISO_A3'];
+
+        if (!iso) {
+            return new ol.style.Style({
+                fill: new ol.style.Fill({color: 'rgb(200,200,200)'}),
+                stroke: new ol.style.Stroke({color: '#737373', width: 1})
+            });
+        }
+
+        const value = currentMapData[iso.toUpperCase()] || 0;
+
+        // Если данных нет → серый (Нет данных)
+        if (value === 0) {
+            return new ol.style.Style({
+                fill: new ol.style.Fill({color: 'rgb(200,200,200)'}),
+                stroke: new ol.style.Stroke({color: '#737373', width: 1})
+            });
+        }
+
+        // Остальные страны по градации
+        let color = 'rgb(200,200,200)';
+        for (let level of levels) {
+            if (value >= level.min && value < level.max) {
+                color = level.color;
+                break;
+            }
+        }
+
+        return new ol.style.Style({
+            fill: new ol.style.Fill({color}),
+            stroke: new ol.style.Stroke({color: '#737373', width: 1})
+        });
+    }
+
+    // ==================== КАРТА ====================
+    const vectorSource = new ol.source.Vector({
+        url: '/static/data/countries.geojson',
+        format: new ol.format.GeoJSON()
+    });
+
+    const vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: countryStyle
+    });
+
+    const map = new ol.Map({
+        target: 'map',
+        layers: [vectorLayer],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([15, 50]),
+            zoom: 3.5
+        })
+    });
+
+    // Загрузка данных
+    function loadMapData(indicator) {
+        currentIndicator = indicator;
+        fetch(`{% url 'api_map_data' %}?indicator=${indicator}`)
+            .then(r => r.json())
+            .then(data => {
+                currentMapData = data;
+                vectorLayer.getSource().changed();
+                renderLegend();
+            });
+    }
+
+    // ==================== ЛЕГЕНДА ====================
+    function renderLegend() {
+        const container = document.getElementById('legend-items');
+        let html = '';
+
+        levels.forEach(level => {
+            html += `
+                <div class="flex items-center gap-3">
+                    <div class="w-5 h-5 rounded-lg" style="background: ${level.color}"></div>
+                    <span class="text-[#0A2540] text-sm">${level.label}</span>
+                </div>
+            `;
+        });
+
+        // Последняя строка — "Нет данных"
+        html += `
+            <div class="flex items-center gap-3 mt-3 pt-3 border-t border-[#EDF0F5]">
+                <div class="w-5 h-5 rounded-lg" style="background: rgb(200,200,200)"></div>
+                <span class="text-[#0A2540] text-sm">Нет данных</span>
+            </div>
+        `;
+
+        container.innerHTML = html;
+    }
+
+    // Селектор индикатора
+    document.getElementById('indicator-select').addEventListener('change', e => {
+        loadMapData(e.target.value);
+    });
+
+    // Запуск
+    loadMapData('gdp_ppp');
+</script>
+{% endblock %}

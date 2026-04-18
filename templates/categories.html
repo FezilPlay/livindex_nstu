@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<section class="relative pt-[160px] pb-[80px] px-6 overflow-hidden text-center">
+    <div class="absolute top-[10%] left-[10%] w-[300px] h-[300px] bg-[#00D4AA]/20 rounded-full blur-[90px] opacity-70"></div>
+    <div class="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-[#0A2540]/10 rounded-full blur-[110px] opacity-50"></div>
+
+    <div class="relative z-10 max-w-[900px] mx-auto flex flex-col gap-6">
+        <h1 class="text-[48px] md:text-[60px] font-extrabold text-[#0A2540] tracking-[-1px]">
+            Все данные
+        </h1>
+        <p class="text-[#546A7F] text-[16px] md:text-[18px]">
+            Основные метрики, влияющие на качество жизни
+        </p>
+    </div>
+</section>
+
+<main class="max-w-[1200px] mx-auto px-6 pb-[100px] flex flex-col gap-10">
+
+    <!-- 🏥 ЗДРАВООХРАНЕНИЕ -->
+    <a href="{% url 'healthcare' %}" class="bg-white rounded-[28px] p-8 shadow-[0_10px_30px_rgba(10,37,64,0.05)] border border-[#0A2540]/5">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 rounded-full bg-[#00D4AA]/10 flex items-center justify-center text-[24px]">
+                🏥
+            </div>
+            <div>
+                <h2 class="text-[24px] font-extrabold text-[#0A2540]">Здравоохранение</h2>
+                <p class="text-[#546A7F] text-sm">Качество медицины и продолжительность жизни</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- 💼 ЧАСЫ РАБОТЫ -->
+    <a href="{% url 'work_and_balance' %}" class="bg-white rounded-[28px] p-8 shadow-[0_10px_30px_rgba(10,37,64,0.05)] border border-[#0A2540]/5">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 rounded-full bg-[#0A2540]/10 flex items-center justify-center text-[24px]">
+                💼
+            </div>
+            <div>
+                <h2 class="text-[24px] font-extrabold text-[#0A2540]">Часы работы</h2>
+                <p class="text-[#546A7F] text-sm">Нагрузка и баланс жизни</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- 💰 ПОКУПАТЕЛЬНАЯ СПОСОБНОСТЬ -->
+    <a href="{% url 'map' %}" class="bg-white rounded-[28px] p-8 shadow-[0_10px_30px_rgba(10,37,64,0.05)] border border-[#0A2540]/5">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 rounded-full bg-[#E0C090]/20 flex items-center justify-center text-[24px]">
+                💰
+            </div>
+            <div>
+                <h2 class="text-[24px] font-extrabold text-[#0A2540]">Покупательная способность</h2>
+                <p class="text-[#546A7F] text-sm">Экономическое благополучие</p>
+            </div>
+        </div>
+    </a>
+
+</main>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block main %}
+<section class="mt-[116px] h-[55em] relative flex items-center justify-center overflow-hidden bg-[#E0C090]">
+    <div class="absolute inset-0">
+        {% if object.image %}
+            <img src="{{ object.image.url }}" class="w-full h-full object-cover object-[center_60%]" alt="{{ object.name_ru }}">
+        {% else %}
+            <img src="{% static 'img/structure/background.jpg' %}" class="w-full h-full object-cover object-[center_60%]">
+        {% endif %}
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0A2540]/10 to-[#0A2540]/30 z-10"></div>
+
+    <div class="relative z-20 text-center text-white flex flex-col items-center gap-16 px-4 pb-12">
+
+        <div class="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-6 py-3 rounded-[40px] shadow-[0_10px_40px_rgba(0,0,0,0.2)] mb-2">
+            <div class="w-12 h-12 rounded-full border-4 border-[#E0E6ED] border-t-[#00D4AA] border-r-[#00D4AA] flex items-center justify-center text-[#0A2540] font-extrabold text-[16px] -rotate-45">
+                <div class="rotate-45">8.2</div>
+            </div>
+            <div class="text-[#0A2540] text-left">
+                <strong class="block text-[16px] leading-[1.2]">Очень хорошо</strong>
+                <span class="text-[13px] text-[#546A7F] font-medium">для экспатов</span>
+            </div>
+        </div>
+
+        <div>
+            <h1 class="text-[40px] md:text-[65px] mb-[25px] font-extrabold tracking-[-1.5px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.2)] m-0 leading-tight uppercase">{{ object.name }}</h1>
+            <div class="flex flex-wrap justify-center gap-3 items-center">
+                <a href="{% url 'country_detail' country.slug %}" class="flex items-center gap-4">
+                    <span class="text-[40px] md:text-[30px] font-extrabold tracking-[-1.5px] drop-shadow-[0_4px_12px_rgba(0,0,0,0.2)] m-0 leading-tight ">{{ country.name_ru|default:country.name }} </span>
+                </a>
+                {% if country.flag_url %}
+                    <img src="{{ country.flag_url }}" alt="Флаг {{ country.name }}" style="width: 45px; border-radius: 4px; height: 30px">
+                {% endif %}
+            </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6">
+            <span class="inline-flex items-center px-3.5 py-1.5 bg-white/90 backdrop-blur-[4px] rounded-full text-[13px] font-semibold text-[#0A2540] shadow-[0_2px_8px_rgba(0,0,0,0.05)]">#Безопасно</span>
+            <span class="inline-flex items-center px-3.5 py-1.5 bg-white/90 backdrop-blur-[4px] rounded-full text-[13px] font-semibold text-[#0A2540] shadow-[0_2px_8px_rgba(0,0,0,0.05)]">#Океан</span>
+            <span class="inline-flex items-center px-3.5 py-1.5 bg-white/90 backdrop-blur-[4px] rounded-full text-[13px] font-semibold text-[#0A2540] shadow-[0_2px_8px_rgba(0,0,0,0.05)]">#ВысокиеНалоги</span>
+            <span class="inline-flex items-center px-3.5 py-1.5 bg-white/90 backdrop-blur-[4px] rounded-full text-[13px] font-semibold text-[#0A2540] shadow-[0_2px_8px_rgba(0,0,0,0.05)]">#Бюрократия</span>
+        </div>
+
+        <!-- From Uiverse.io by cssbuttons-io -->
+        <div class="block">
+            <button class="btn">Сравнить город</button>
+        <style>
+            /* From Uiverse.io by cssbuttons-io */
+            .btn {
+              position: relative;
+              font-size: 19px;
+              text-decoration: none;
+              padding: 0.5em 1.5em;
+              display: inline-block;
+              cursor: pointer;
+              border-radius: 6em;
+              transition: all 0.2s;
+              border: none;
+              font-family: inherit;
+              font-weight: 600;
+              color: black;
+              background-color: white;
+            }
+
+            .btn:hover {
+              transform: translateY(-3px);
+              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn:active {
+              transform: translateY(-1px);
+              box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn::after {
+              content: "";
+              display: inline-block;
+              height: 100%;
+              width: 100%;
+              border-radius: 100px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: -1;
+              transition: all 0.4s;
+            }
+
+            .btn::after {
+              background-color: #fff;
+            }
+
+            .btn:hover::after {
+              transform: scaleX(1.4) scaleY(1.6);
+              opacity: 0;
+            }
+
+        </style>
+        </div>
+    </div>
+</section>
+<main class="max-w-[1200px] mx-auto -mt-[60px] mb-[60px] relative z-30 px-6 grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-8">
+    <section class="contents">
+        <article class="bg-white rounded-[24px] p-8 shadow-[0_4px_6px_rgba(10,37,64,0.02),0_12px_24px_rgba(10,37,64,0.04)] border border-[#0A2540]/5 flex flex-col gap-6">
+        <div class="flex justify-between items-start">
+            <div>
+                <h2 class="text-[20px] font-bold text-[#0A2540] mb-2">Вердикт liveindex</h2>
+                <p class="text-[14px] text-[#546A7F] leading-relaxed">Экспертное резюме на основе 12 тыс. показателей</p>
+            </div>
+            <div class="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-[#546A7F] transition duration-200 hover:bg-[#0A2540]/5 hover:text-[#0A2540]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </div>
+        </div>
+        <p class="text-[15px] leading-[1.7] text-[#546A7F]">
+            Лиссабон, который часто называют <span class="text-[#0A2540] font-semibold bg-gradient-to-b from-transparent from-[65%] to-[#00D4AA]/20 to-[65%]">«европейской Калифорнией»</span>, предлагает потрясающий свет и близость к океану круглый год. Однако будьте готовы к плохой теплоизоляции в домах — зимой внутри может быть холоднее, чем на улице.
+        </p>
+
+        <div class="flex flex-col gap-4 mt-3">
+            <div class="grid grid-cols-[100px_1fr_40px] items-center gap-4 text-[13px] font-semibold text-[#0A2540]">
+                <span>Фрилансеры</span>
+                <div class="h-2 bg-[#EDF0F5] rounded-full overflow-hidden">
+                    <div class="h-full bg-[#00D4AA] rounded-full" style="width: 90%;"></div>
+                </div>
+                <span>90%</span>
+            </div>
+            <div class="grid grid-cols-[100px_1fr_40px] items-center gap-4 text-[13px] font-semibold text-[#0A2540]">
+                <span>Карьеристы</span>
+                <div class="h-2 bg-[#EDF0F5] rounded-full overflow-hidden">
+                    <div class="h-full bg-[#0A2540] rounded-full" style="width: 40%;"></div>
+                </div>
+                <span>40%</span>
+            </div>
+        </div>
+    </article>
+        <article class="bg-white rounded-[24px] p-8 shadow-[0_4px_6px_rgba(10,37,64,0.02),0_12px_24px_rgba(10,37,64,0.04)] border border-[#0A2540]/5 flex flex-col gap-6">
+        <div class="flex justify-between items-start">
+            <div>
+                <h2 class="text-[20px] font-bold text-[#0A2540] mb-2">Умный расчет стоимости жизни</h2>
+                <p class="text-[14px] text-[#546A7F] leading-relaxed">Примерные расходы в месяц</p>
+            </div>
+            <button class="bg-transparent text-[#0A2540] hover:bg-[#0A2540]/5 px-3 py-1.5 rounded-full font-semibold text-[13px] transition duration-200 outline-none">Детали →</button>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[#EDF0F5] pb-6 gap-6 md:gap-0">
+            <div class="flex bg-[#EDF0F5] p-1 rounded-full w-max">
+                <div class="px-4 py-2 rounded-full text-[13px] font-semibold text-[#546A7F] cursor-pointer transition duration-200">👤 Один</div>
+                <div class="px-4 py-2 rounded-full text-[13px] font-semibold cursor-pointer transition duration-200 bg-white text-[#0A2540] shadow-[0_2px_8px_rgba(0,0,0,0.05)]">👫 Пара</div>
+                <div class="px-4 py-2 rounded-full text-[13px] font-semibold text-[#546A7F] cursor-pointer transition duration-200">👨‍👩‍👧 Семья</div>
+            </div>
+
+            <div class="flex-1 md:ml-8 flex flex-col gap-2">
+                <div class="flex justify-between text-[12px] font-bold uppercase tracking-[0.5px] text-[#546A7F]">
+                    <span>Эконом</span>
+                    <span>Люкс</span>
+                </div>
+                <input type="range" class="w-full h-[6px] bg-[#EDF0F5] rounded-full appearance-none outline-none accent-[#0A2540] cursor-pointer" value="65">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 items-center gap-8 pt-2">
+            <div class="flex flex-col gap-1">
+                <span class="text-[13px] font-semibold text-[#546A7F] uppercase tracking-[0.5px]">Итого в месяц</span>
+                <span class="text-[36px] font-extrabold text-[#0A2540] tracking-[-1px]">€2,450</span>
+                <span class="text-[14px] text-[#546A7F]">Включая аренду жилья в центре</span>
+            </div>
+
+            <div class="relative w-[120px] h-[120px] mx-auto sm:ml-auto sm:mr-0">
+                <div class="w-full h-full rounded-full flex items-center justify-center" style="background: conic-gradient(#0A2540 0% 55%, #00D4AA 55% 80%, #EDF0F5 80% 100%);">
+                    <div class="w-[70%] h-[70%] bg-white rounded-full flex flex-col items-center justify-center gap-2 shadow-inner">
+                        <div class="flex items-center gap-2 text-[12px] font-semibold text-[#546A7F]">
+                            <div class="w-2 h-2 rounded-[2px] bg-[#0A2540]"></div>
+                            Жилье
+                        </div>
+                        <div class="flex items-center gap-2 text-[12px] font-semibold text-[#546A7F]">
+                            <div class="w-2 h-2 rounded-[2px] bg-[#00D4AA]"></div>
+                            Еда
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    </section>
+    <div class="contents">
+        <div class="bg-white rounded-[24px] p-8 shadow-[0_4px_6px_rgba(10,37,64,0.02),0_12px_24px_rgba(10,37,64,0.04)] border border-[#0A2540]/5  gap-6">
+        <div class="flex justify-between items-start">
+            <div>
+                <h2 class="text-[20px] font-bold text-[#0A2540] mb-2">Реклама</h2>
+                <p class="text-[14px] text-[#546A7F] leading-relaxed">Просмотр рекламы помогает нам поддерживать сайт</p>
+            </div>
+            <div class="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-[#546A7F] transition duration-200 hover:bg-[#0A2540]/5 hover:text-[#0A2540]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{% endblock %}
