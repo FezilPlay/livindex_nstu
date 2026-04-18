@@ -134,6 +134,8 @@ STATIC_URL = 'static/'
 
 # STATICFILES_DIRS = []
 
+ALLOWED_HOSTS = ['*']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
